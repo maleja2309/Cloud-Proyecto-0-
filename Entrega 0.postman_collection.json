@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "4e3d08f9-dc7d-473a-9f64-b803dc031e06",
+		"name": "Entrega 0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23045995"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"usuario10\",\r\n    \"contrasena\": \"12345\",\r\n    \"imagen\":\"https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Iniciar Sesión",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"nombre\": \"ramiro\",\r\n    \"contrasena\": \"8901\",\r\n    \"imagen\":\"https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios/iniciar-sesion",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios",
+								"iniciar-sesion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver usuarios",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"description": "**Request:**\n\n- **Crear Usuario**\n    - Tipo: POST\n    - Dirección: \"/usuarios\"\n    - Entrada:\n        - Nombre usuario\n        - Contrseña\n        - Imagen de perfil\n    - Salida:\n        - Usuario creado\n- **Iniciar sesión**\n    - Tipo: POST\n    - Dirección: \"/usuarios/iniciar-sesion\"\n    - Entrada\n        - Nombre de usuario\n        - Contraseña\n    - Salida:\n        - Token de autenticación"
+		},
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "Crear Categoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Trabajo\",\r\n    \"descripcion\": \"Tareas a realizar del trabajo\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/categorias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar categoría",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/categorias/{{id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"categorias",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener lista de categorías",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/categorias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "**Request:**\n\n- **Crear Categoría**\n    \n    - Tipo: POST\n        \n    - Dirección: \"/categorias\"\n        \n    - Entrada:\n        \n        - Nombre\n            \n        - Descripción\n            \n    - Salida:\n        \n        - Categoría creada\n            \n- **Eliminar categoría**\n    \n    - Tipo: DELETE\n        \n    - Dirección: \"/categorias/{id}\"\n        \n    - Salida:\n        \n        - Confirmación de eliminación\n            \n- **Obtener lista de categorías disponibles**\n    \n    - Tipo: GET\n        \n    - Dirección: \"categorias\"\n        \n    - Salida:\n        \n        - Lista de categorías"
+		},
+		{
+			"name": "Tareas",
+			"item": [
+				{
+					"name": "Crear tarea",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Actualizar lista\",\r\n    \"texto\": \"Se debe actualizar los correos de los nuevos integrantes del equipo\",\r\n    \"fechaCreacion\": \"2024-01-15T15:53:00\",\r\n    \"fechaFinalizacion\": \"2024-01-17T15:53:00\",\r\n    \"estado\": \"Empezada\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/tareas",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tareas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar tarea",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"nombre\": \"Actualizar lista\",\r\n    \"texto\": \"Se debe actualizar los correos de los nuevos integrantes del equipo\",\r\n    \"fechaCreacion\": \"2024-01-15T15:53:00\",\r\n    \"fechaFinalizacion\": \"2024-01-17T15:53:00\",\r\n    \"estado\": \"Finalizada\",\r\n    \"id_categoria\": 1,\r\n    \"id_usuario\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/tareas/{{id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tareas",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar tarea",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/tareas/{{id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tareas",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener lista de tareas por usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/tareas/usuario",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tareas",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener tarea por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/tareas/{{id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"tareas",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "**Request:**\n\n- Actualizar tarea\n    \n    - Tipo: PUT\n        \n    - Dirección: \"/tareas/{id}\"\n        \n    - Entradas (Opcionales):\n        \n        - Texto de la tarea\n            \n        - Fecha tentativa de finalización\n            \n        - Estado de la tarea\n            \n    - Salida:\n        \n        - Tarea actualizada\n            \n- Eliminar tarea\n    \n    - Tipo: DELETE\n        \n    - Dirección: \"/tareas/{id}\"\n        \n    - Salida:\n        \n        - Confirmación de eliminación\n            \n- Obtener lista de tareas por usuario\n    \n    - Tipo: GET\n        \n    - Dirección: \"/tareas/usuario\"\n        \n    - Salida:\n        \n        - Lista de tareas del usuario\n            \n- Obtener lista por ID\n    \n    - Tipo: GET\n        \n    - Dirección: \"/tareas/{id}\"\n        \n    - Salida:\n        \n        - Detalles de la tarea"
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "localhost:5000"
+		}
+	]
+}
