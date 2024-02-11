@@ -1,16 +1,15 @@
 from flask import Flask, request
 from flask_cors import CORS
-from flask_uploads import IMAGES, UploadSet, UploadNotAllowed
 
 def create_app(config_name):
     app = Flask(__name__)
     CORS(app)
+    app.config['CORS_HEADERS'] = 'application/json'
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:0000@localhost:5432'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_PATH'] = './imagenes'
 
-    photos = UploadSet("photos", IMAGES)
     
     @app.route("/foto",methods=["POST","GET"])
     def upload():
@@ -21,8 +20,11 @@ def create_app(config_name):
                 image_name=image.filename
                 if '.jpg' in image_name:
                     image.save('imagenes/'+image_name)
-                    return {"response":"file saved successfully in your current durectory"}
+                    return {"response":"file saved successfully in your current directory"}
                 elif '.jpeg' in image_name: 
+                    image.save('imagenes/'+image_name)
+                    return {"response":"file saved successfully in your current directory"}
+                if '.img' in image_name:
                     image.save('imagenes/'+image_name)
                     return {"response":"file saved successfully in your current durectory"}
                 else:
