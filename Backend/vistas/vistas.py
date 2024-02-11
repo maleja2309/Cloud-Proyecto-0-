@@ -1,9 +1,12 @@
 from flask_restful import Resource
 from ..modelos import db, Usuario, UsuarioSchema, Tarea, TareaSchema, Categoria, CategoriaSchema
-from flask import request, current_app
+from flask import render_template, request, redirect, url_for, current_app
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
+from ..imagenes import photos
+from flask_uploads import UploadNotAllowed
 from flask_jwt_extended import jwt_required, create_access_token
+
 
 usuario_schema = UsuarioSchema()
 tarea_schema = TareaSchema()
@@ -97,6 +100,12 @@ class vistaTareaUsuario(Resource):
         return [tarea_schema.dump(al) for al in usuario.tareas]
 
 ## Categorias
+class vistaTareasCategoria(Resource):
+    def get(self, id_usuario, id_categoria):
+        categoria = Categoria.query.get_or_404(id_categoria)
+        usuario = Usuario.query.get_or_404(id_usuario)
+        return [tarea_schema.dump(al) for al in (categoria.tareas and usuario.tareas)]
+
 # Crear categoría [POST]
 class vistaCategoria(Resource):
 # Eliminar categoria [DELETE]
@@ -118,4 +127,5 @@ class vistaCategorias(Resource):
         db.session.add(nueva_categoria)
         db.session.commit()
         return categoria_schema.dump(nueva_categoria), 201
+
 

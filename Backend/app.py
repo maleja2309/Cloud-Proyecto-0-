@@ -21,9 +21,9 @@ api.add_resource(vistaUsuario, "/usuario/<int:id_usuario>")
 # Categoria
 api.add_resource(vistaCategoria, "/categorias/<int:id_categoria>")
 api.add_resource(vistaCategorias, "/categorias")
+api.add_resource(vistaTareasCategoria, "/tareas/<int:id_usuario>/<int:id_categoria>")
 
 # Tareas
 api.add_resource(vistaTarea, "/tarea/<int:id_tarea>")
 api.add_resource(vistaTareasUsuario, "/usuario/<int:id_usuario>/<int:id_categoria>/tareas")
 api.add_resource(vistaTareaUsuario, "/tareas/<int:id_usuario>")
-
