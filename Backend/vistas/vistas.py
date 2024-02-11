@@ -1,12 +1,8 @@
 from flask_restful import Resource
 from ..modelos import db, Usuario, UsuarioSchema, Tarea, TareaSchema, Categoria, CategoriaSchema
-from flask import render_template, request, redirect, url_for, current_app
+from flask import request, current_app
 from datetime import datetime
-from sqlalchemy.exc import IntegrityError
-from ..imagenes import photos
-from flask_uploads import UploadNotAllowed
 from flask_jwt_extended import jwt_required, create_access_token
-
 
 usuario_schema = UsuarioSchema()
 tarea_schema = TareaSchema()
@@ -26,12 +22,15 @@ class vistaSignIn(Resource):
         
             return {"mensaje": "El nombre ya está en uso, utilice otro nombre"}, 409
         else:
+            
             db.session.add(nuevo_usuario)
             db.session.commit()
-            return usuario_schema.dump(nuevo_usuario), 201
-        
+            return {"mensaje": 'Usuario creado exitosamente'}, 201
+
+class vistaUsuarios(Resource):            
     def get(self):
         return [usuario_schema.dump(usuarios) for usuarios in Usuario.query.all()]
+
 
 class vistaUsuario(Resource):
     def get(self, id_usuario):
@@ -44,14 +43,20 @@ class vistaLogIn(Resource):
         u_contrasena = request.json["contrasena"]
         usuario = Usuario.query.filter_by(nombre= u_nombre, 
                                           contrasena= u_contrasena)
+        print(usuario)
         if usuario:
-            return {'mensaje': 'Inicio de sesión exitoso'},200
+            token_de_acceso = create_access_token(identity=request.json['nombre'])
+
+            return {'token': token_de_acceso, 'id': usuario.first().id}, 200
+        
         else:
             return {'mensje':'Nombre de usuario o contrasea incorrectos'},401
+
 
 ## Tareas
 class vistaTareasUsuario(Resource):
 # Creación de una tarea [POST]
+    @jwt_required()
     def post(self, id_usuario, id_categoria):
         nueva_tarea = Tarea(nombre=request.json["nombre"],
                             texto=request.json["texto"],
@@ -71,6 +76,7 @@ class vistaTareasUsuario(Resource):
             db.session.rollback()
             current_app.logger.error(e, exc_info=True)
             return {'mensaje': 'Ocurrió un problema'}, 409  
+    
 
 class vistaTarea(Resource):
 # Actualizar tarea [PUT]
@@ -95,16 +101,15 @@ class vistaTarea(Resource):
 
 class vistaTareaUsuario(Resource):
 # Obtener tareas por usuario [GET]
+    @jwt_required()
     def get(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
         return [tarea_schema.dump(al) for al in usuario.tareas]
 
-## Categorias
-class vistaTareasCategoria(Resource):
-    def get(self, id_usuario, id_categoria):
-        categoria = Categoria.query.get_or_404(id_categoria)
-        usuario = Usuario.query.get_or_404(id_usuario)
-        return [tarea_schema.dump(al) for al in (categoria.tareas and usuario.tareas)]
+class vistaTareaCategoria(Resource):
+    def get(self, id_tarea):
+        tarea = Tarea.query.get_or_404(id_tarea)
+        return tarea.categoria
 
 # Crear categoría [POST]
 class vistaCategoria(Resource):
@@ -114,7 +119,7 @@ class vistaCategoria(Resource):
         db.session.delete(categoria)
         db.session.commit()
         return "Categoria eliminada correctamente", 204
-
+    
 class vistaCategorias(Resource):
 # Obtener lista de categorias [GET]
     def get(self):

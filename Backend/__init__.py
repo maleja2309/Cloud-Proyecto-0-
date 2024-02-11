@@ -9,7 +9,9 @@ def create_app(config_name):
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:0000@localhost:5432'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_PATH'] = './imagenes'
+    app.config['JWT_SECRET_KEY'] = 'frase-secreta'
 
+    app.config['PROPAGATE_EXCEPTIONS'] = True
     
     @app.route("/foto",methods=["POST","GET"])
     def upload():

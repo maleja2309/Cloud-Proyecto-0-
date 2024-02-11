@@ -56,7 +56,7 @@ class Categoria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(20))
     descripcion = db.Column(db.String(200))
-    tareas = db.relationship("Tarea")
+    tareas = db.relationship("Tarea", cascade="all, delete, delete-orphan")
     
 
 #================================================================================#
