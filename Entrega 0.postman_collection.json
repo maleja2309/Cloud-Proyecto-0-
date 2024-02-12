@@ -13,10 +13,16 @@
 					"name": "Crear Usuario",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"usuario10\",\r\n    \"contrasena\": \"12345\",\r\n    \"imagen\":\"https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"usuario1\",\r\n    \"contrasena\": \"12345\",\r\n    \"imagen\":\"https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -24,12 +30,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/usuarios",
+							"raw": "{{baseURL}}/usuario",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"usuarios"
+								"usuario"
 							]
 						}
 					},
@@ -37,12 +43,45 @@
 				},
 				{
 					"name": "Iniciar Sesión",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// extraer el cuerpo de la respuesta como JSON y guardarlo en la variable data\r",
+									"var data = pm.response.json();\r",
+									"\r",
+									"// comprobar si la respuesta tiene un código de estado 200\r",
+									"pm.test(\"La respuesta tiene un código de estado 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// comprobar si la variable 'token' existe en el cuerpo de la respuesta\r",
+									"pm.test(\"La respuesta contiene el token\", function () {\r",
+									"    pm.expect(data.token).to.exist;\r",
+									"});\r",
+									"\r",
+									"// guardar el valor del token en una variable de colección de Postman\r",
+									"pm.collectionVariables.set(\"token\", data.token);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "token",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"nombre\": \"ramiro\",\r\n    \"contrasena\": \"8901\",\r\n    \"imagen\":\"https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"usuario2\",\r\n    \"contrasena\": \"12345\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -66,7 +105,34 @@
 					"name": "Ver usuarios",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/usuarios",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/usuario/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -83,7 +149,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Trabajo\",\r\n    \"descripcion\": \"Tareas a realizar del trabajo\"\r\n}\r\n",
+							"raw": "{\r\n    \"nombre\": \"Todas\",\r\n    \"descripcion\": \"Todas tus tareas\"\r\n    \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -108,13 +174,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/categorias/{{id}}",
+							"raw": "{{baseURL}}/categorias/4",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"categorias",
-								"{{id}}"
+								"4"
 							]
 						}
 					},
@@ -146,11 +212,27 @@
 				{
 					"name": "Crear tarea",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNzY1MzM4NiwianRpIjoiZGViMjc5NWMtZjI1MS00NGQ4LWE4YzAtMzhmNzg1NDAyYjJkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InVzdWFyaW82IiwibmJmIjoxNzA3NjUzMzg2LCJjc3JmIjoiODNhNjg3MDMtZTI4My00OTlmLWE4NDctMmI5MmQwYmUzMDdiIiwiZXhwIjoxNzA3NjU0Mjg2fQ.jmBU8k8ssWX6ZFQKVdLq6C2zOZq1mdnUfQYhTprdMDY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Actualizar lista\",\r\n    \"texto\": \"Se debe actualizar los correos de los nuevos integrantes del equipo\",\r\n    \"fechaCreacion\": \"2024-01-15T15:53:00\",\r\n    \"fechaFinalizacion\": \"2024-01-17T15:53:00\",\r\n    \"estado\": \"Empezada\"\r\n}\r\n",
+							"raw": "{\r\n    \"nombre\": \"Lista3\",\r\n    \"texto\": \"Se debe actualizar los correos de los nuevos integrantes del equipo\",\r\n    \"fechaCreacion\": \"2022-10-08\",\r\n    \"fechaFinalizacion\": \"2022-10-08\",\r\n    \"estado\": \"E\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -158,11 +240,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/tareas",
+							"raw": "{{baseURL}}/usuario/1/1/tareas",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
+								"usuario",
+								"1",
+								"1",
 								"tareas"
 							]
 						}
@@ -172,11 +257,21 @@
 				{
 					"name": "Actualizar tarea",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"nombre\": \"Actualizar lista\",\r\n    \"texto\": \"Se debe actualizar los correos de los nuevos integrantes del equipo\",\r\n    \"fechaCreacion\": \"2024-01-15T15:53:00\",\r\n    \"fechaFinalizacion\": \"2024-01-17T15:53:00\",\r\n    \"estado\": \"Finalizada\",\r\n    \"id_categoria\": 1,\r\n    \"id_usuario\": 1\r\n}",
+							"raw": "{\r\n    \"texto\": \"A\",\r\n    \"fechaFinalizacion\": \"2024-01-17\",\r\n    \"estado\": \"F\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -184,13 +279,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/tareas/{{id}}",
+							"raw": "{{baseURL}}/tarea/5",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"tareas",
-								"{{id}}"
+								"tarea",
+								"5"
 							]
 						}
 					},
@@ -199,16 +294,26 @@
 				{
 					"name": "Eliminar tarea",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/tareas/{{id}}",
+							"raw": "{{baseURL}}/tarea/1",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"tareas",
-								"{{id}}"
+								"tarea",
+								"1"
 							]
 						}
 					},
@@ -217,16 +322,27 @@
 				{
 					"name": "Obtener lista de tareas por usuario",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/tareas/usuario",
+							"raw": "{{baseURL}}/usuario/1/tareas",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"tareas",
-								"usuario"
+								"usuario",
+								"1",
+								"tareas"
 							]
 						}
 					},
@@ -238,13 +354,31 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/tareas/{{id}}",
+							"raw": "{{baseURL}}/tarea/15",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"tareas",
-								"{{id}}"
+								"tarea",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener categoria de la tarea",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/catTa/5",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"catTa",
+								"5"
 							]
 						}
 					},
@@ -252,12 +386,50 @@
 				}
 			],
 			"description": "**Request:**\n\n- Actualizar tarea\n    \n    - Tipo: PUT\n        \n    - Dirección: \"/tareas/{id}\"\n        \n    - Entradas (Opcionales):\n        \n        - Texto de la tarea\n            \n        - Fecha tentativa de finalización\n            \n        - Estado de la tarea\n            \n    - Salida:\n        \n        - Tarea actualizada\n            \n- Eliminar tarea\n    \n    - Tipo: DELETE\n        \n    - Dirección: \"/tareas/{id}\"\n        \n    - Salida:\n        \n        - Confirmación de eliminación\n            \n- Obtener lista de tareas por usuario\n    \n    - Tipo: GET\n        \n    - Dirección: \"/tareas/usuario\"\n        \n    - Salida:\n        \n        - Lista de tareas del usuario\n            \n- Obtener lista por ID\n    \n    - Tipo: GET\n        \n    - Dirección: \"/tareas/{id}\"\n        \n    - Salida:\n        \n        - Detalles de la tarea"
+		},
+		{
+			"name": "Imagenes",
+			"item": [
+				{
+					"name": "Cargar imagenes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"contentType": "",
+									"type": "file",
+									"src": "postman-cloud:///1eec9357-11d2-4850-a281-ce5e504d353e"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/foto",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"foto"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Pruebas para cargar la imagen del usuario"
 		}
 	],
 	"variable": [
 		{
 			"key": "baseURL",
 			"value": "localhost:5000"
+		},
+		{
+			"key": "token",
+			"value": ""
 		}
 	]
 }
