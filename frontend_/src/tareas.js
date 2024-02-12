@@ -117,15 +117,12 @@ const TareasList = (props) => {
     }, [props.tareas]);
     
 
-    return (
-
-        
+    return (        
         <Container>
-            <Usuario></Usuario>
- 
-            <Categorias></Categorias>
+            <Usuario/> 
+            <Categorias/>
             <Row>
-                {props.tareas && props.tareas.map(tarea => {
+                {Array.isArray(props.tareas) && props.tareas.map(tarea => {
                     const fecha = new Date(tarea.fechaCreacion);
                     const año = fecha.getFullYear();
                     const mes = fecha.getMonth() + 1;
