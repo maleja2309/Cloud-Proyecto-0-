@@ -93,7 +93,7 @@ En esta vista se encuentran las tareas del usuario, en la parte superior está s
   * ![image](https://github.com/maleja2309/Cloud-Proyecto-0-/assets/69637081/42bcb326-5793-4c39-85d7-3fcb8ae68a0d)
     
   **Importante:**
-    (1) Para realizar el PUT de las tareas, en estas se deben actualizar **todos** los campos. En caso de solo cambiar una casilla, colocar los mismos valores en los demás para que se actualicen todos los espacios dentro del front para enviar la petición al back. 
+    (1) Para realizar el PUT de las tareas, en estas se deben actualizar **todos** los campos. En caso de solo cambiar una casilla, colocar los mismos valores en los demás para que se actualicen todos los espacios dentro del front para enviar la petición al back, entre estos el estado y la fecha de Finalización, esta debe seguir el formato mostrado (YYYY-MM-DD) 
     (2) Dar clic en el botón *Guardar Cambios*
     
 - Eliminar una tarea:
