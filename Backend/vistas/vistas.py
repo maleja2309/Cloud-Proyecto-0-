@@ -17,9 +17,7 @@ class vistaSignIn(Resource):
                                 contrasena=request.json['contrasena'],
                                 imagen=request.json['imagen'])
         usuario = Usuario.query.filter_by(nombre=nombre_usuario).first()
-        if usuario:
-            print(nombre_usuario)
-        
+        if usuario:        
             return {"mensaje": "El nombre ya está en uso, utilice otro nombre"}, 409
         else:            
             db.session.add(nuevo_usuario)
@@ -29,7 +27,6 @@ class vistaSignIn(Resource):
 class vistaUsuarios(Resource):            
     def get(self):
         return [usuario_schema.dump(usuarios) for usuarios in Usuario.query.all()]
-
 
 class vistaUsuario(Resource):
     def get(self, id_usuario):
@@ -42,7 +39,6 @@ class vistaLogIn(Resource):
         u_contrasena = request.json["contrasena"]
         usuario = Usuario.query.filter_by(nombre= u_nombre, 
                                           contrasena= u_contrasena)
-        print(usuario)
         if usuario:
             token_de_acceso = create_access_token(identity=request.json['nombre'])
 
@@ -50,7 +46,6 @@ class vistaLogIn(Resource):
         
         else:
             return {'mensje':'Nombre de usuario o contrasea incorrectos'},401
-
 
 ## Tareas
 class vistaTareasUsuario(Resource):

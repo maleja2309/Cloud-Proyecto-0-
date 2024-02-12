@@ -158,7 +158,7 @@ const TareasList = (props) => {
                                         <option value={tarea.estado.valor}>{tarea.estado.valor}</option>
                                         <option value="SE">Sin Empezar</option>
                                         <option value="E">Empezada</option>
-                                        <option value="T">Terminada</option>
+                                        <option value="F">Finalizada</option>
                                     </Form.Select>
                                     <br></br>
                                     <Form.Control
@@ -170,9 +170,9 @@ const TareasList = (props) => {
                                     <br></br>
                                     <Button variant="primary"
                                         onClick={async () => {
-                                            const response = await fetch("http://localhost:5000/tarea/" + `${id_}`,
+                                            const response = await fetch("http://localhost:5000/tarea/" + `${tarea.id}`,
                                                 {
-                                                    method: 'POST',
+                                                    method: 'PUT',
                                                     headers: {
                                                         'Content-Type': 'application/json'
                                                     },
@@ -196,7 +196,7 @@ const TareasList = (props) => {
                                                 })
                                             if (response.ok) {
                                                 console.log('Eliminado');
-                                                window.location.reload();
+                                                navigate('/');
                                             }
                                         }}
                                     >Eliminar tarea</Button>

@@ -38,7 +38,7 @@ function Registro() {
                     return;
                 }
 
-                // Enviar la imagen al servidor y guardarla en la carpeta 'images' dentro de 'public'
+                // Enviar la imagen al servidor y guardarla en la carpeta 'images' dentro
                 const response = await axios.post('http://localhost:5000/foto', formData);
 
                 // Lograr la respuesta del servidor
