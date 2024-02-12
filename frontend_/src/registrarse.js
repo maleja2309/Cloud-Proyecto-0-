@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/esm/Col';
 import Button from 'react-bootstrap/Button';
 import ImageUploading from "react-images-uploading";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Registro() {
 
@@ -17,7 +18,7 @@ function Registro() {
     const [images, setImages] = useState([]);
     const [new_user, setNewU] = useState([]);
     const [new_pass, setNewP] = useState([]);
-
+    const navigate = useNavigate();
 
     const maxNumber = 1;
 
@@ -128,7 +129,7 @@ function Registro() {
                         if (`${images}` === "") {
                             im = `/imagenes/default.jpg`;
                         }
-                        const response = await fetch("http://localhost:5000/usuarios",
+                        const response = await fetch("http://localhost:5000/usuario",
                             {
                                 method: 'POST',
                                 mode: 'cors',
@@ -143,6 +144,7 @@ function Registro() {
                             })
                         if (response.ok) {
                             console.log('Registrado');
+                            navigate("/");
                         }
                         else {
                             alert('Seleccione otro nombre de usuario, ese ya se encuentra en nuestro sistema');

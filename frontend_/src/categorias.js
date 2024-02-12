@@ -1,25 +1,26 @@
 import CategoriaList from "./categoria";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
-function Categorias(){
-    const [categorias, setdata] = useState([]);
+function Categorias() {
+  const [categorias, setdata] = useState([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     fetch("http://localhost:5000/categorias",
-    {'methods':'GET',
-    headers:
-    {
-      'Content-Type':'application/json'
-    }
-    })
-    .then(response => response.json())
-    .then(response => setdata(response))
-    .catch(error => console.log(error))
-  },[]);
+      {
+        'methods': 'GET',
+        headers:
+        {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(response => setdata(response))
+      .catch(error => console.log(error))
+  }, []);
 
   return (
-    <CategoriaList 
-    categorias={categorias}/>
+    <CategoriaList
+      categorias={categorias} />
   );
 
 }

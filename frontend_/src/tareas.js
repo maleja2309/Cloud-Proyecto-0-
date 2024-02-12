@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Auth_token";
+import Usuario from "./usuarios";
 
 const TareasList = (props) => {
 
@@ -117,7 +118,11 @@ const TareasList = (props) => {
     
 
     return (
+
+        
         <Container>
+            <Usuario></Usuario>
+ 
             <Categorias></Categorias>
             <Row>
                 {props.tareas && props.tareas.map(tarea => {

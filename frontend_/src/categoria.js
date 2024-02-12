@@ -13,7 +13,7 @@ const CategoriaList = (props) => {
       <Nav justify variant="tabs" defaultActiveKey="/home" >
         {props.categorias && props.categorias.map(categoria => (
           <Nav.Item key={categoria.id}>
-            <Nav.Link href={`/tareas/${categoria.id}`}>{categoria.nombre}</Nav.Link>
+            <Nav.Link>{categoria.nombre}</Nav.Link>
 
             <span style={{ fontSize: '0.8rem', display: 'block' }}>{categoria.descripcion}</span>
             <span style={{ fontSize: '0.8rem', display: 'block' }}>{categoria.id}</span>

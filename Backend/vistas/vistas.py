@@ -21,8 +21,7 @@ class vistaSignIn(Resource):
             print(nombre_usuario)
         
             return {"mensaje": "El nombre ya está en uso, utilice otro nombre"}, 409
-        else:
-            
+        else:            
             db.session.add(nuevo_usuario)
             db.session.commit()
             return {"mensaje": 'Usuario creado exitosamente'}, 201
